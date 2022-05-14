@@ -22,7 +22,7 @@ else
   done
 fi
 
-RANDOMNUMB=$(( $RANDOM % 50 + 1 ))
+RANDOMNUMB=$(( $RANDOM % 1000 + 1 ))
 echo "Guess the secret number between 1 and 1000:"
 read GUESS
 COUNT=0
@@ -49,3 +49,18 @@ do
 done
 COUNT=$((COUNT+1))
 echo "You guessed it in $COUNT tries. The secret number was $GUESS. Nice job!"
+###  need to calculate stats for users and enter them to the database
+## find user
+FOUND_INFO=$($PSQL "SELECT username, played_games, best_game FROM users WHERE username='$USERNAME'; ")
+echo "$FOUND_INFO" | while read NAME BAR NUMB_GAME BAR NUMBER_STEPS
+do
+  ## increment games_played
+  NUMB_GAME=$((NUMB_GAME+1))
+  UPDATE_GAMES=$($PSQL "UPDATE users SET played_games=$NUMB_GAME WHERE username='$USERNAME'; ")
+
+  ## update best game
+  if [ $NUMBER_STEPS -lt $COUNT ] || [ $NUMBER_STEPS -lt 1 ]
+  then
+    UPDATE_BEST=$($PSQL "UPDATE users SET best_game=$COUNT WHERE username='$USERNAME'; ")
+  fi
+done
