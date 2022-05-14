@@ -48,7 +48,6 @@ do
   COUNT=$((COUNT+1))
 done
 COUNT=$((COUNT+1))
-echo "You guessed it in $COUNT tries. The secret number was $GUESS. Nice job!"
 ###  need to calculate stats for users and enter them to the database
 ## find user
 FOUND_INFO=$($PSQL "SELECT username, played_games, best_game FROM users WHERE username='$USERNAME'; ")
@@ -64,3 +63,4 @@ do
     UPDATE_BEST=$($PSQL "UPDATE users SET best_game=$COUNT WHERE username='$USERNAME'; ")
   fi
 done
+echo "You guessed it in $COUNT tries. The secret number was $GUESS. Nice job!"
