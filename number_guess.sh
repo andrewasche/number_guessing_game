@@ -26,7 +26,7 @@ RANDOMNUMB=$(( $RANDOM % 50 + 1 ))
 echo "Guess the secret number between 1 and 1000:"
 read GUESS
 COUNT=0
-while [ "$RANDOMNUMB" -ne "$GUESS" ]
+while [[ ! $GUESS =~ ^[0-9]+$ ]] || [ "$RANDOMNUMB" -ne "$GUESS" ]
 do
   # if input is not a number
   if [[ ! $GUESS =~ ^[0-9]+$ ]]
